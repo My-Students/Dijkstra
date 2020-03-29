@@ -34,21 +34,25 @@ def dijkstra(matrice,node):
         print("Non esiste il nodo inserito")
         return 0;
     percorsi={}
+    predecessori={}
     nodi_disponibili=[]
     cont=0
     for i in range(0,len(matrice)):
         nodi_disponibili.append(cont)
         percorsi[str(cont)]=-1
+        predecessori[str(cont)]="non presente"
         cont += 1
 
     nodo = node
     percorsi[str(node)]=0
+    predecessori[str(node)]=str(nodo)
     end=True
     while len(nodi_disponibili)!=0 and end:
         for nr,_ in enumerate(matrice):
             if matrice[nodo][nr] > -1:
                 if percorsi[str(nr)] > percorsi[str(nodo)]+matrice[nodo][nr] or percorsi[str(nr)]==-1:
                     percorsi[str(nr)]=percorsi[str(nodo)]+matrice[nodo][nr]
+                    predecessori[str(nr)]=str(nodo)
         nodi_disponibili.remove(nodo)
         nodo_p=nodo
         min=9999
@@ -59,7 +63,7 @@ def dijkstra(matrice,node):
                     min = percorsi[str(i)]
         if nodo == nodo_p:
             end=False
-    return percorsi
+    return percorsi, predecessori
 
 def main():
     scacchiera = []
@@ -71,8 +75,10 @@ def main():
             print("Non esiste il nodo inserito")
             nodo=-1
     percorsi = {}
-    percorsi = dijkstra(scacchiera,nodo)
+    predecessori = {}
+    percorsi, predecessori = dijkstra(scacchiera,nodo)
     print(percorsi)
+    print(predecessori)
     
 if __name__ == "__main__":
     main()
